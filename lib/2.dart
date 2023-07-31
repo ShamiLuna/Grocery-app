@@ -11,7 +11,7 @@ import 'mylist.dart';
 class Gogis extends StatefulWidget {
   const Gogis({Key? key}) : super(key: key);
 
-  static const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+  // static const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
   @override
   State<Gogis> createState() => _GogisState();
 }

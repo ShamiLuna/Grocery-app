@@ -155,57 +155,50 @@ class Up extends StatelessWidget {
                        },
                          child: Icon(Icons.arrow_forward_ios,size: 12,color: Colors.white,))),
             ),
-            GestureDetector(
-              onTap: ()
-              {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>  Up()));
-              },
-              child: Container(
-                height: 120,
-                decoration: BoxDecoration(
-                ),
-                child: FutureBuilder<List<Products>>(
-                  future: FetchAgify(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                          itemCount: snapshot.data!.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>  DetailsPage(snapshot.data![index].id.toString())));
-                                    },
-                                    child: Container(
-                                      height: 70,
-                                      width: 70,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(30),
-                                        image: DecorationImage(
-                                          image: NetworkImage(snapshot.data![index].image.toString()),fit: BoxFit.fill,
-                                        ),
+            Container(
+              height: 120,
+              decoration: BoxDecoration(
+              ),
+              child: FutureBuilder<List<Products>>(
+                future: FetchAgify(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>  DetailsPage(snapshot.data![index].id.toString())));
+                                  },
+                                  child: Container(
+                                    height: 70,
+                                    width: 70,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      image: DecorationImage(
+                                        image: NetworkImage(snapshot.data![index].image.toString()),fit: BoxFit.fill,
                                       ),
                                     ),
                                   ),
-                                  Expanded(child: Text(snapshot.data![index].id.toString())),
+                                ),
+                                Expanded(child: Text(snapshot.data![index].category.toString())),
+                              ],
+                            ),
+                          );
+                        }
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
 
-                                ],
-                              ),
-                            );
-                          }
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
-
-                    // By default, show a loading spinner.
-                    return const CircularProgressIndicator();
-                  },
-                ),
+                  // By default, show a loading spinner.
+                  return const CircularProgressIndicator();
+                },
               ),
             ),
             Container(
@@ -343,102 +336,57 @@ class Up extends StatelessWidget {
 
             Card(
               elevation: 9,
-              child: GestureDetector(
-                onTap: ()
-                {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Up()),
-                  );
-                },
-                child:FutureBuilder<List<Products>>(
-                  future: FetchAgify(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData)
-                      return
-                      Container(
-                      height: 390,
-                      child:
-                      GridView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 250,
-                            childAspectRatio: 2/2,
-                            mainAxisSpacing: 5,
-                            crossAxisSpacing: 1),
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (BuildContext context, int index)
+              child: FutureBuilder<List<Products>>(
+                future: FetchAgify(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData)
+                    return
+                    Container(
+                    height: 390,
+                    child:
+                    GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 250,
+                          childAspectRatio: 2/2,
+                          mainAxisSpacing: 5,
+                          crossAxisSpacing: 1),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (BuildContext context, int index)
 
-                        {
-                          return Column(
-                            children: [
-                              GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>  DetailsPage(snapshot.data![index].id.toString())));
-                                },
-                                child: Container(
-                                  height: 160,
-                                  width: 185,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(snapshot.data![index].image.toString()),fit: BoxFit.fill,
-                                    ),
+                      {
+                        return Column(
+                          children: [
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>  DetailsPage(snapshot.data![index].id.toString())));
+                              },
+                              child: Container(
+                                height: 160,
+                                width: 185,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(snapshot.data![index].image.toString()),fit: BoxFit.fill,
                                   ),
                                 ),
                               ),
-                              Row(
-                                children: [
-                                  Text(snapshot.data![index].price.toString()),
-                                ],
-                              )
-                            ],
-                          );
+                            ),
+                            Row(
+                              children: [
+                                Text(snapshot.data![index].price.toString()),
+                              ],
+                            )
+                          ],
+                        );
 
-                        },),);
-                     else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
+                      },),);
+                   else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
 
-                    // By default, show a loading spinner.
-                    return const CircularProgressIndicator();
-                  },
-                ),
-                // Container(
-                //   height: 390,
-                //
-                //   child:
-                //   GridView.builder(
-                //     physics: NeverScrollableScrollPhysics(),
-                //     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                //         maxCrossAxisExtent: 250,
-                //         childAspectRatio: 2/2,
-                //         mainAxisSpacing: 5,
-                //         crossAxisSpacing: 1),
-                //     itemCount: flag.length,
-                //     itemBuilder: (BuildContext context, int index)
-                //
-                //     {
-                //       return Column(
-                //         children: [
-                //           Container(
-                //             height: 160,
-                //             width: 185,
-                //             decoration: BoxDecoration(
-                //               image: DecorationImage(
-                //                 image: AssetImage(flag[index].image),fit: BoxFit.fill,
-                //               ),
-                //             ),
-                //           ),
-                //           Row(
-                //             children: [
-                //               Text(flag[index].text),
-                //             ],
-                //           )
-                //         ],
-                //       );
-                //
-                //     },),
-                // ),
+                  // By default, show a loading spinner.
+                  return const CircularProgressIndicator();
+                },
               ),
             ),
             Card(
@@ -524,57 +472,51 @@ class Ups extends StatelessWidget {
                       },
                       child: Icon(Icons.arrow_forward_ios,size: 12,color: Colors.white,))),
             ),
-            GestureDetector(
-              onTap: ()
-              {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>  Up()));
-              },
-              child: Container(
-                height: 120,
-                decoration: BoxDecoration(
-                ),
-                child: FutureBuilder<List<Products>>(
-                  future: FetchAgify(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                          itemCount: snapshot.data!.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>  DetailsPage(snapshot.data![index].id.toString())));
-                                    },
-                                    child: Container(
-                                      height: 70,
-                                      width: 70,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(30),
-                                        image: DecorationImage(
-                                          image: NetworkImage(snapshot.data![index].image.toString()),fit: BoxFit.fill,
-                                        ),
+            Container(
+              height: 120,
+              decoration: BoxDecoration(
+              ),
+              child: FutureBuilder<List<Products>>(
+                future: FetchAgify(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>  DetailsPage(snapshot.data![index].id.toString())));
+                                  },
+                                  child: Container(
+                                    height: 70,
+                                    width: 70,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      image: DecorationImage(
+                                        image: NetworkImage(snapshot.data![index].image.toString()),fit: BoxFit.fill,
                                       ),
                                     ),
                                   ),
-                                  Expanded(child: Text(snapshot.data![index].id.toString())),
+                                ),
+                                Expanded(child: Text(snapshot.data![index].id.toString())),
 
-                                ],
-                              ),
-                            );
-                          }
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
+                              ],
+                            ),
+                          );
+                        }
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
 
-                    // By default, show a loading spinner.
-                    return const CircularProgressIndicator();
-                  },
-                ),
+                  // By default, show a loading spinner.
+                  return const CircularProgressIndicator();
+                },
               ),
             ),
             Container(
@@ -712,102 +654,57 @@ class Ups extends StatelessWidget {
 
             Card(
               elevation: 9,
-              child: GestureDetector(
-                onTap: ()
-                {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Up()),
-                  );
-                },
-                child:FutureBuilder<List<Products>>(
-                  future: FetchAgify(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData)
-                      return
-                        Container(
-                          height: 390,
-                          child:
-                          GridView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent: 250,
-                                childAspectRatio: 2/2,
-                                mainAxisSpacing: 5,
-                                crossAxisSpacing: 1),
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (BuildContext context, int index)
+              child: FutureBuilder<List<Products>>(
+                future: FetchAgify(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData)
+                    return
+                      Container(
+                        height: 390,
+                        child:
+                        GridView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 250,
+                              childAspectRatio: 2/2,
+                              mainAxisSpacing: 5,
+                              crossAxisSpacing: 1),
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (BuildContext context, int index)
 
-                            {
-                              return Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>  DetailsPage(snapshot.data![index].id.toString())));
-                                    },
-                                    child: Container(
-                                      height: 160,
-                                      width: 185,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: NetworkImage(snapshot.data![index].image.toString()),fit: BoxFit.fill,
-                                        ),
+                          {
+                            return Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>  DetailsPage(snapshot.data![index].id.toString())));
+                                  },
+                                  child: Container(
+                                    height: 160,
+                                    width: 185,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(snapshot.data![index].image.toString()),fit: BoxFit.fill,
                                       ),
                                     ),
                                   ),
-                                  Row(
-                                    children: [
-                                      Text(snapshot.data![index].price.toString()),
-                                    ],
-                                  )
-                                ],
-                              );
+                                ),
+                                Row(
+                                  children: [
+                                    Text(snapshot.data![index].price.toString()),
+                                  ],
+                                )
+                              ],
+                            );
 
-                            },),);
-                    else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
+                          },),);
+                  else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
 
-                    // By default, show a loading spinner.
-                    return const CircularProgressIndicator();
-                  },
-                ),
-                // Container(
-                //   height: 390,
-                //
-                //   child:
-                //   GridView.builder(
-                //     physics: NeverScrollableScrollPhysics(),
-                //     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                //         maxCrossAxisExtent: 250,
-                //         childAspectRatio: 2/2,
-                //         mainAxisSpacing: 5,
-                //         crossAxisSpacing: 1),
-                //     itemCount: flag.length,
-                //     itemBuilder: (BuildContext context, int index)
-                //
-                //     {
-                //       return Column(
-                //         children: [
-                //           Container(
-                //             height: 160,
-                //             width: 185,
-                //             decoration: BoxDecoration(
-                //               image: DecorationImage(
-                //                 image: AssetImage(flag[index].image),fit: BoxFit.fill,
-                //               ),
-                //             ),
-                //           ),
-                //           Row(
-                //             children: [
-                //               Text(flag[index].text),
-                //             ],
-                //           )
-                //         ],
-                //       );
-                //
-                //     },),
-                // ),
+                  // By default, show a loading spinner.
+                  return const CircularProgressIndicator();
+                },
               ),
             ),
             Card(

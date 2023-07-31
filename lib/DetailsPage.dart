@@ -11,10 +11,10 @@ import 'color.dart';
 import 'mylist.dart';
 
 class DetailsPage extends StatefulWidget {
-  final String productId;
+  final String productI;
 
 
-  DetailsPage(this.productId);
+  DetailsPage(this.productI);
 
   @override
   State<DetailsPage> createState() => _DetailsPageState();
@@ -24,7 +24,7 @@ class _DetailsPageState extends State<DetailsPage> {
 
   Future<Products> FetchAgify()async{
    // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String proId = widget.productId.toString();
+    String proId = widget.productI.toString();
     print(proId);
     final respont = await http.get(Uri.parse("https://fakestoreapi.com/products/$proId"));
     print(respont.body);
@@ -49,7 +49,6 @@ class _DetailsPageState extends State<DetailsPage> {
               future: FetchAgify(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
